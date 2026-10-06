@@ -1,7 +1,17 @@
 # local, per-install files
 config.env
+.env
+*.env
+secrets.env
 settings.json
 local.md
 run/
 __pycache__/
 README.draft.md
+
+# keys & certs
+*.pem
+*.key
+*.ppk
+id_*
+!id_*.pub
