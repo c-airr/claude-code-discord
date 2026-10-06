@@ -19,13 +19,9 @@ fi
 python3 sync_channels.py
 mkdir -p run
 
-# Workaround for a bug in the discord plugin: replies look the channel up in the
-# discord.js cache, and a DM channel that arrived as a "partial" has no recipientId
-# there, so replying to the owner's DM fails with "not allowlisted". Force a fresh
-# fetch. Idempotent, and re-applied after plugin updates.
-for f in "$HOME"/.claude/plugins/cache/claude-plugins-official/discord/*/server.ts; do
-    [ -f "$f" ] && sed -i 's/await client\.channels\.fetch(id)$/await client.channels.fetch(id, { force: true })/' "$f"
-done
+# DM bug fix, permission prompts in the chat, ✅-approved replies (see the file).
+# Idempotent, and re-applied after plugin updates.
+python3 patch_plugin.py
 
 # Fixed session ID so idle_compact.py knows which transcript to watch.
 cat /proc/sys/kernel/random/uuid > run/session_id
