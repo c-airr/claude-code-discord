@@ -8,14 +8,21 @@
         "hooks": [
           { "type": "command", "command": "python3 @DIR@/guard_secrets.py" }
         ]
+      },
+      {
+        "matcher": "Agent",
+        "hooks": [
+          { "type": "command", "command": "python3 @DIR@/guard_agent.py" }
+        ]
       }
     ]
   },
   "permissions": {
     "defaultMode": "default",
-    "deny": ["Agent"],
+    "deny": [],
     "allow": [
       "mcp__plugin_discord_discord",
+      "Agent",
       "Bash(sudo systemctl restart claude-discord)",
       "Read",
       "Glob",
