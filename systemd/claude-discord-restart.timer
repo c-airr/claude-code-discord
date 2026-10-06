@@ -1,0 +1,10 @@
+[Unit]
+Description=claude-discord: daily restart
+
+[Timer]
+# set your own timezone - systemd accepts one after the time
+OnCalendar=*-*-* 05:00:00 @TZ@
+Persistent=false
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,7 @@
+# local, per-install files
+config.env
+settings.json
+local.md
+run/
+__pycache__/
+README.draft.md

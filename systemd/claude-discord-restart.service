@@ -1,0 +1,6 @@
+[Unit]
+Description=claude-discord: fresh session (new claude.ai connectors, clean context)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl restart claude-discord

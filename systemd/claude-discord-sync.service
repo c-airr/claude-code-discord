@@ -1,0 +1,9 @@
+[Unit]
+Description=claude-discord: sync server channels into access.json, compact when idle
+
+[Service]
+Type=oneshot
+User=@USER@
+WorkingDirectory=@DIR@
+ExecStart=-/usr/bin/python3 @DIR@/sync_channels.py
+ExecStart=/usr/bin/python3 @DIR@/idle_compact.py

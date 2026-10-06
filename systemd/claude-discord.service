@@ -1,0 +1,17 @@
+[Unit]
+Description=Claude Code on Discord (discord channel in tmux)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=@USER@
+WorkingDirectory=@DIR@
+ExecStart=@DIR@/start.sh
+ExecStop=/usr/bin/tmux kill-session -t claude
+Restart=always
+RestartSec=15
+# soft cap: above this the kernel pushes the session to swap instead of OOM-killing neighbours
+MemoryHigh=700M
+
+[Install]
+WantedBy=multi-user.target
