@@ -5,6 +5,9 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 export PATH="$HOME/.local/bin:$HOME/.bun/bin:$PATH"
+# On a 1 GB box the bun plugin servers can take >30 s (the default MCP timeout) to start;
+# Claude Code does not retry, so the bot would stay offline until the next restart.
+export MCP_TIMEOUT=120000
 set -a; . ./config.env; set +a
 
 # Optional secrets for tools inside the session (kept out of the repo), e.g.
