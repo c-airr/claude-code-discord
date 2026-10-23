@@ -34,7 +34,7 @@ cd claude-code-discord
 ./install.sh
 ```
 
-`install.sh` is safe to run again. It installs `tmux`, `unzip`, `python3`, `curl`, [Bun](https://bun.sh) (the Discord plugin runs on it), the Claude Code CLI, and `discord@claude-plugins-official`. It also installs three systemd units. The bot stays stopped until the last step.
+`install.sh` is safe to run again. It installs `tmux`, `unzip`, `python3`, `curl`, [Bun](https://bun.sh) (the Discord plugin runs on it), the Claude Code CLI, and `discord@claude-plugins-official`. It also installs four systemd units. The bot stays stopped until the last step.
 
 ### 3. Config
 
@@ -55,6 +55,7 @@ The bot ignores every other account.
 | `MODEL` | `claude-sonnet-5-5` | Model alias or a full model id. |
 | `IDLE_MINUTES` | `50` | After this much quiet time, compact the session when the context is large. |
 | `COMPACT_MIN_TOKENS` | `40000` | Compact only above this context size. |
+| `LIMITS_CHANNELS` | empty | Comma-separated channel ids. When a 5-hour or weekly Claude limit resets, the bot posts `limits_reset.mp4` and pings you in the first one that works. Empty means no post, the status still shows usage. |
 
 The token stays out of `config.env`. Put it in the plugin env file:
 
@@ -91,6 +92,7 @@ That enables and starts:
 - `claude-discord`, the session in tmux. systemd brings it back if it exits.
 - `claude-discord-sync.timer`, every 5 minutes. It refreshes the channel allowlist and compacts the session after a long idle stretch.
 - `claude-discord-restart.timer`, a fresh session every day at 05:00 in the server timezone.
+- `claude-discord-limits.timer`, every minute. The bot's status shows Claude usage (`5h 71% · 1w 12%`), and a limit reset gets the video post from `LIMITS_CHANNELS`. Usage comes from the same internal endpoint Claude Code's `/usage` reads, with its login. It is not a documented API, so Anthropic can change or block it.
 
 ```bash
 systemctl status claude-discord
@@ -138,7 +140,7 @@ cd claude-code-discord
 ./install.sh
 ```
 
-`install.sh` można odpalać ponownie. Instaluje `tmux`, `unzip`, `python3`, `curl`, [Buna](https://bun.sh) (na nim chodzi wtyczka Discord), CLI Claude Code oraz `discord@claude-plugins-official`. Dopisuje też trzy unity systemd. Bot jeszcze nie startuje.
+`install.sh` można odpalać ponownie. Instaluje `tmux`, `unzip`, `python3`, `curl`, [Buna](https://bun.sh) (na nim chodzi wtyczka Discord), CLI Claude Code oraz `discord@claude-plugins-official`. Dopisuje też cztery unity systemd. Bot jeszcze nie startuje.
 
 ### 3. Konfiguracja
 
@@ -159,6 +161,7 @@ Każde inne konto jest ignorowane.
 | `MODEL` | `claude-sonnet-5-5` | Alias modelu albo pełne id. |
 | `IDLE_MINUTES` | `50` | Po tylu minutach ciszy sesja jest kompaktowana, gdy kontekst jest duży. |
 | `COMPACT_MIN_TOKENS` | `40000` | Kompaktowanie dopiero powyżej tego rozmiaru kontekstu. |
+| `LIMITS_CHANNELS` | puste | Id kanałów po przecinku. Gdy zresetuje się 5-godzinny albo tygodniowy limit Claude, bot wrzuca `limits_reset.mp4` z pingiem na pierwszy kanał, który zadziała. Puste: bez filmu, status i tak pokazuje zużycie. |
 
 Token trzymasz poza `config.env`, w pliku środowiska wtyczki:
 
@@ -195,6 +198,7 @@ To włącza i uruchamia:
 - `claude-discord`, sesję w tmux. systemd podnosi ją ponownie, gdy padnie.
 - `claude-discord-sync.timer`, co 5 minut. Odświeża listę kanałów i kompaktuje sesję po dłuższej ciszy.
 - `claude-discord-restart.timer`, świeżą sesję codziennie o 05:00 w strefie czasowej serwera.
+- `claude-discord-limits.timer`, co minutę. Status bota pokazuje zużycie Claude (`5h 71% · 1w 12%`), a po resecie limitu leci film na `LIMITS_CHANNELS`. Dane idą z tego samego wewnętrznego endpointu, z którego czyta `/usage` w Claude Code, na jego logowaniu. To nie jest udokumentowane API, więc Anthropic może je zmienić albo zablokować.
 
 ```bash
 systemctl status claude-discord
