@@ -16,11 +16,16 @@ Patches:
 - approve-reaction: when someone replies to a bot message and an allowlisted user
   reacts to that reply with ✅, the reply is delivered to Claude (meta
   `approved_by`, `in_reply_to`), even though its author is not allowlisted.
+- limits-status: the bot's custom status shows Claude usage ("5h 71% · 1w 12%") from
+  run/limits-status.txt (written by limits.py), re-read every minute.
 """
 import glob
+import json
 import os
 import re
 import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
 
 PATCHES = [
     ("dm-fetch", [
@@ -105,6 +110,26 @@ client.on('messageReactionAdd', async (reaction, user) => {
 })
 
 client.once('ready', c => {"""),
+    ]),
+    ("limits-status", [
+        ("  process.stderr.write(`discord channel: gateway connected as ${c.user.tag}\\n`)\n",
+         """  process.stderr.write(`discord channel: gateway connected as ${c.user.tag}\\n`)
+  // [cc-discord:limits-status] custom status = Claude usage written by limits.py
+  let lastStatus = ''
+  const updateStatus = () => {
+    try {
+      const text = readFileSync(LIMITS_STATUS, 'utf8').trim()
+      if (text && text !== lastStatus) {
+        c.user.setActivity({ type: 4, name: 'Custom Status', state: text }) // 4 = ActivityType.Custom
+        lastStatus = text
+      }
+    } catch {}
+  }
+  updateStatus()
+  setInterval(updateStatus, 60_000)
+"""),
+        ("const pendingPermissions = new Map",
+         f"const LIMITS_STATUS = {json.dumps(os.path.join(HERE, 'run', 'limits-status.txt'))}\nconst pendingPermissions = new Map"),
     ]),
 ]
 

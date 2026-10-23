@@ -39,7 +39,7 @@ sudo systemctl daemon-reload
 
 if [ "${1:-}" = "--start" ]; then
     step "Starting"
-    sudo systemctl enable --now claude-discord claude-discord-sync.timer claude-discord-restart.timer
+    sudo systemctl enable --now claude-discord claude-discord-sync.timer claude-discord-restart.timer claude-discord-limits.timer
     systemctl --no-pager status claude-discord | head -5
 else
     cat <<EOF

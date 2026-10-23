@@ -1,0 +1,9 @@
+[Unit]
+Description=claude-discord: check Claude usage limits every minute
+
+[Timer]
+OnCalendar=minutely
+Persistent=true
+
+[Install]
+WantedBy=timers.target

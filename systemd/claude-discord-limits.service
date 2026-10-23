@@ -1,0 +1,8 @@
+[Unit]
+Description=claude-discord: Claude usage in the bot status, reset ping with a video
+
+[Service]
+Type=oneshot
+User=@USER@
+WorkingDirectory=@DIR@
+ExecStart=/usr/bin/python3 @DIR@/limits.py
