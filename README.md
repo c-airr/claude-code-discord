@@ -55,6 +55,7 @@ The bot ignores every other account.
 | `MODEL` | `claude-sonnet-5-5` | Model alias or a full model id. |
 | `IDLE_MINUTES` | `50` | After this much quiet time, compact the session when the context is large. |
 | `COMPACT_MIN_TOKENS` | `40000` | Compact only above this context size. |
+| `REMOTE_CONTROL` | empty | Name under which the same session shows up in claude.ai/code and the Claude app ([Remote Control](https://code.claude.com/docs/en/remote-control)). `/compact`, `/clear` and restarts stay in sync. Empty means off. |
 | `LIMITS_CHANNELS` | empty | Comma-separated channel ids. When a 5-hour or weekly Claude limit resets, the bot posts `limits_reset.mp4` and pings you in the first one that works. Empty means no post, the status still shows usage. |
 
 The token stays out of `config.env`. Put it in the plugin env file:
@@ -161,6 +162,7 @@ Każde inne konto jest ignorowane.
 | `MODEL` | `claude-sonnet-5-5` | Alias modelu albo pełne id. |
 | `IDLE_MINUTES` | `50` | Po tylu minutach ciszy sesja jest kompaktowana, gdy kontekst jest duży. |
 | `COMPACT_MIN_TOKENS` | `40000` | Kompaktowanie dopiero powyżej tego rozmiaru kontekstu. |
+| `REMOTE_CONTROL` | puste | Nazwa, pod którą ta sama sesja pokazuje się w claude.ai/code i aplikacji Claude ([Remote Control](https://code.claude.com/docs/en/remote-control)). `/compact`, `/clear` i restarty są wspólne. Puste oznacza wyłączone. |
 | `LIMITS_CHANNELS` | puste | Id kanałów po przecinku. Gdy zresetuje się 5-godzinny albo tygodniowy limit Claude, bot wrzuca `limits_reset.mp4` z pingiem na pierwszy kanał, który zadziała. Puste: bez filmu, status i tak pokazuje zużycie. |
 
 Token trzymasz poza `config.env`, w pliku środowiska wtyczki:

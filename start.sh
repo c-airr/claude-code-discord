@@ -42,6 +42,7 @@ tmux kill-session -t claude 2>/dev/null || true
 tmux new-session -d -s claude -x 200 -y 50 \
     claude --channels plugin:discord@claude-plugins-official \
            --model "$MODEL" \
+           ${REMOTE_CONTROL:+--remote-control "$REMOTE_CONTROL"} \
            --session-id "$(cat run/session_id)" \
            --settings "$PWD/run/settings.json" \
            --append-system-prompt-file "$PWD/run/prompt.md"
